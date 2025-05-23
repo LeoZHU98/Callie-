@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEO Concept Map</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            text-align: center;
+            color: #4a5568;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .concept-map {
+            position: relative;
+            width: 100%;
+            height: 700px;
+            background: #f8fafc;
+            border-radius: 15px;
+            border: 2px solid #e2e8f0;
+            overflow: hidden;
+        }
+
+        .concept-node {
+            position: absolute;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border: 2px solid transparent;
+            min-width: 120px;
+        }
+
+        .concept-node:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
+
+        .concept-node.active {
+            transform: scale(1.1);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+            border-color: #4299e1;
+        }
+
+        /* Core SEO - Center */
+        .core { background: linear-gradient(135deg, #ff6b6b, #ee5a52); color: white; top: 300px; left: 500px; font-size: 18px; }
+
+        /* Technical SEO */
+        .technical { background: linear-gradient(135deg, #4ecdc4, #44a08d); color: white; top: 150px; left: 200px; }
+        .crawling { background: linear-gradient(135deg, #45b7cd, #2196f3); color: white; top: 80px; left: 100px; }
+        .indexing { background: linear-gradient(135deg, #43cea2, #185a9d); color: white; top: 120px; left: 350px; }
+        .site-speed { background: linear-gradient(135deg, #a8edea, #fed6e3); color: #333; top: 200px; left: 50px; }
+
+        /* On-Page SEO */
+        .onpage { background: linear-gradient(135deg, #ffd89b, #19547b); color: white; top: 450px; left: 200px; }
+        .keywords { background: linear-gradient(135deg, #667eea, #764ba2); color: white; top: 550px; left: 100px; }
+        .meta-tags { background: linear-gradient(135deg, #f093fb, #f5576c); color: white; top: 380px; left: 50px; }
+        .content { background: linear-gradient(135deg, #4facfe, #00f2fe); color: white; top: 520px; left: 350px; }
+
+        /* Off-Page SEO */
+        .offpage { background: linear-gradient(135deg, #fa709a, #fee140); color: white; top: 150px; left: 800px; }
+        .backlinks { background: linear-gradient(135deg, #a8e6cf, #dcedc1); color: #333; top: 80px; left: 900px; }
+        .social-signals { background: linear-gradient(135deg, #ffd3a5, #fd9853); color: white; top: 200px; left: 950px; }
+        .local-seo { background: linear-gradient(135deg, #96fbc4, #f9f586); color: #333; top: 120px; left: 700px; }
+
+        /* Analytics & Tools */
+        .analytics { background: linear-gradient(135deg, #9796f0, #fbc7d4); color: white; top: 450px; left: 800px; }
+        .tools { background: linear-gradient(135deg, #a1c4fd, #c2e9fb); color: #333; top: 550px; left: 900px; }
+        .metrics { background: linear-gradient(135deg, #d299c2, #fef9d7); color: #333; top: 380px; left: 950px; }
+
+        /* Mobile & UX */
+        .mobile { background: linear-gradient(135deg, #89f7fe, #66a6ff); color: white; top: 300px; left: 100px; }
+        .ux { background: linear-gradient(135deg, #fdbb2d, #22c1c3); color: white; top: 350px; left: 350px; }
+
+        .connection-line {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transform-origin: left center;
+            opacity: 0.6;
+            transition: opacity 0.3s ease;
+        }
+
+        .info-panel {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 300px;
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            display: none;
+            z-index: 20;
+        }
+
+        .info-panel.show {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .info-panel h3 {
+            margin-top: 0;
+            color: #4a5568;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
+        }
+
+        .info-panel ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .info-panel li {
+            margin-bottom: 8px;
+            color: #718096;
+        }
+
+        .legend {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .legend h4 {
+            margin: 0 0 10px 0;
+            color: #4a5568;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 SEO 新人培训 - 名词定义</h1>
+        <h2>有任何疑问联系 Léo （或者自己问AI解决） </h2>
+        <div class="concept-map" id="conceptMap">
+            <!-- Core SEO -->
+            <div class="concept-node core" data-concept="core">SEO</div>
+            
+            <!-- Technical SEO Branch -->
+            <div class="concept-node technical" data-concept="technical">Technical SEO</div>
+            <div class="concept-node crawling" data-concept="crawling">Crawling</div>
+            <div class="concept-node indexing" data-concept="indexing">Indexing</div>
+            <div class="concept-node site-speed" data-concept="site-speed">Site Speed</div>
+            <div class="concept-node mobile" data-concept="mobile">Mobile-First</div>
+            
+            <!-- On-Page SEO Branch -->
+            <div class="concept-node onpage" data-concept="onpage">On-Page SEO</div>
+            <div class="concept-node keywords" data-concept="keywords">Keywords</div>
+            <div class="concept-node meta-tags" data-concept="meta-tags">Meta Tags</div>
+            <div class="concept-node content" data-concept="content">Content</div>
+            <div class="concept-node ux" data-concept="ux">User Experience</div>
+            
+            <!-- Off-Page SEO Branch -->
+            <div class="concept-node offpage" data-concept="offpage">Off-Page SEO</div>
+            <div class="concept-node backlinks" data-concept="backlinks">Backlinks</div>
+            <div class="concept-node social-signals" data-concept="social-signals">Social Signals</div>
+            <div class="concept-node local-seo" data-concept="local-seo">Local SEO</div>
+            
+            <!-- Analytics Branch -->
+            <div class="concept-node analytics" data-concept="analytics">Analytics</div>
+            <div class="concept-node tools" data-concept="tools">SEO Tools</div>
+            <div class="concept-node metrics" data-concept="metrics">Metrics & KPIs</div>
+        </div>
+
+        <div class="info-panel" id="infoPanel">
+            <h3 id="panelTitle">Click a concept to learn more</h3>
+            <div id="panelContent">
+                <p>Hover over and click on the concepts above to explore SEO fundamentals and see how they connect!</p>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const conceptData = {
+            core: {
+                title: "Search Engine Optimization (SEO)",
+                content: [
+                    "The practice of optimizing websites to rank higher in search engine results",
+                    "Combines technical, content, and authority factors",
+                    "Goal: Increase organic (non-paid) traffic",
+                    "Requires ongoing optimization and monitoring"
+                ]
+            },
+            technical: {
+                title: "Technical SEO",
+                content: [
+                    "Website infrastructure optimization for search engines",
+                    "Ensures search engines can crawl and index your site",
+                    "Includes site speed, mobile-friendliness, and architecture",
+                    "Foundation for all other SEO efforts"
+                ]
+            },
+            crawling: {
+                title: "Crawling",
+                content: [
+                    "How search engines discover and access web pages",
+                    "Robots.txt file controls crawler access",
+                    "XML sitemaps help guide crawlers",
+                    "Internal linking affects crawl efficiency"
+                ]
+            },
+            indexing: {
+                title: "Indexing",
+                content: [
+                    "Process of storing and organizing crawled pages",
+                    "Only indexed pages can appear in search results",
+                    "Meta robots tags control indexing behavior",
+                    "Duplicate content can cause indexing issues"
+                ]
+            },
+            "site-speed": {
+                title: "Site Speed",
+                content: [
+                    "Page loading time affects rankings and user experience",
+                    "Core Web Vitals are key speed metrics",
+                    "Optimize images, minimize CSS/JS, use CDN",
+                    "Mobile speed is especially important"
+                ]
+            },
+            mobile: {
+                title: "Mobile-First Indexing",
+                content: [
+                    "Google primarily uses mobile version for indexing",
+                    "Responsive design is essential",
+                    "Mobile usability affects rankings",
+                    "Test regularly with mobile-friendly tools"
+                ]
+            },
+            onpage: {
+                title: "On-Page SEO",
+                content: [
+                    "Optimization of individual web pages",
+                    "Content, HTML, and user experience factors",
+                    "Directly controllable by website owners",
+                    "Foundation for ranking potential"
+                ]
+            },
+            keywords: {
+                title: "Keywords",
+                content: [
+                    "Terms people search for in search engines",
+                    "Research tools help identify opportunities",
+                    "Consider search intent and competition",
+                    "Use naturally throughout content"
+                ]
+            },
+            "meta-tags": {
+                title: "Meta Tags",
+                content: [
+                    "HTML tags that describe page content to search engines",
+                    "Title tags appear in search results",
+                    "Meta descriptions influence click-through rates",
+                    "Schema markup provides rich snippets"
+                ]
+            },
+            content: {
+                title: "Content Optimization",
+                content: [
+                    "High-quality, relevant content is crucial",
+                    "Answer user search intent effectively",
+                    "Use keywords naturally and strategically",
+                    "Regular updates and fresh content help rankings"
+                ]
+            },
+            ux: {
+                title: "User Experience (UX)",
+                content: [
+                    "How users interact with your website",
+                    "Page layout, navigation, and usability",
+                    "Bounce rate and dwell time are ranking signals",
+                    "Good UX leads to better SEO performance"
+                ]
+            },
+            offpage: {
+                title: "Off-Page SEO",
+                content: [
+                    "Factors outside your website that affect rankings",
+                    "Builds authority and trustworthiness",
+                    "Harder to control than on-page factors",
+                    "Quality over quantity is key"
+                ]
+            },
+            backlinks: {
+                title: "Backlinks",
+                content: [
+                    "Links from other websites to your site",
+                    "Major ranking factor for authority",
+                    "Quality and relevance matter more than quantity",
+                    "Natural link building through great content"
+                ]
+            },
+            "social-signals": {
+                title: "Social Signals",
+                content: [
+                    "Social media engagement and shares",
+                    "Indirect impact on SEO through visibility",
+                    "Can drive traffic and brand awareness",
+                    "Help content reach wider audiences"
+                ]
+            },
+            "local-seo": {
+                title: "Local SEO",
+                content: [
+                    "Optimization for location-based searches",
+                    "Google My Business is crucial",
+                    "Local citations and reviews matter",
+                    "Important for brick-and-mortar businesses"
+                ]
+            },
+            analytics: {
+                title: "SEO Analytics",
+                content: [
+                    "Measuring and tracking SEO performance",
+                    "Data-driven optimization decisions",
+                    "Monitor rankings, traffic, and conversions",
+                    "Regular reporting and analysis"
+                ]
+            },
+            tools: {
+                title: "SEO Tools",
+                content: [
+                    "Google Search Console (free, essential)",
+                    "Google Analytics for traffic analysis",
+                    "Keyword research tools (SEMrush, Ahrefs)",
+                    "Technical SEO audit tools"
+                ]
+            },
+            metrics: {
+                title: "Metrics & KPIs",
+                content: [
+                    "Organic traffic growth",
+                    "Keyword ranking positions",
+                    "Click-through rates (CTR)",
+                    "Conversion rates from organic traffic"
+                ]
+            }
+        };
+
+        const nodes = document.querySelectorAll('.concept-node');
+        const infoPanel = document.getElementById('infoPanel');
+        const panelTitle = document.getElementById('panelTitle');
+        const panelContent = document.getElementById('panelContent');
+
+        let activeNode = null;
+
+        nodes.forEach(node => {
+            node.addEventListener('click', (e) => {
+                const concept = e.target.dataset.concept;
+                
+                // Remove active class from previous node
+                if (activeNode) {
+                    activeNode.classList.remove('active');
+                }
+                
+                // Add active class to current node
+                e.target.classList.add('active');
+                activeNode = e.target;
+                
+                // Update info panel
+                const data = conceptData[concept];
+                if (data) {
+                    panelTitle.textContent = data.title;
+                    panelContent.innerHTML = '<ul>' + 
+                        data.content.map(item => `<li>${item}</li>`).join('') + 
+                        '</ul>';
+                    infoPanel.classList.add('show');
+                }
+            });
+
+            node.addEventListener('mouseenter', (e) => {
+                if (!e.target.classList.contains('active')) {
+                    e.target.style.transform = 'scale(1.05)';
+                }
+            });
+
+            node.addEventListener('mouseleave', (e) => {
+                if (!e.target.classList.contains('active')) {
+                    e.target.style.transform = 'scale(1)';
+                }
+            });
+        });
+
+        // Close info panel when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.classList.contains('concept-node') && !infoPanel.contains(e.target)) {
+                if (activeNode) {
+                    activeNode.classList.remove('active');
+                    activeNode = null;
+                }
+                infoPanel.classList.remove('show');
+            }
+        });
+
+        // Show initial info
+        setTimeout(() => {
+            infoPanel.classList.add('show');
+        }, 1000);
+    </script>
+</body>
+</html>
